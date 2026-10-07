@@ -1,0 +1,59 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<style>
+  .sd-demo { max-width: 920px; margin: 0 auto; padding: 24px 0 48px; }
+  .sd-demo h1 { margin-bottom: 4px; }
+  .sd-demo .sd-lead { color: var(--text-muted, #6b7280); margin-bottom: 24px; }
+  .sd-demo table { width: 100%; border-collapse: collapse; margin: 12px 0 28px; font-size: 14px; }
+  .sd-demo th, .sd-demo td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border-color, #e5e7eb); vertical-align: top; }
+  .sd-demo code { background: var(--control-bg, #f3f4f6); padding: 1px 6px; border-radius: 4px; }
+  .sd-demo .sd-note { background: var(--alert-bg-warning, #fff7ed); padding: 10px 14px; border-radius: 8px; margin-bottom: 20px; }
+  .sd-demo ul { padding-left: 20px; }
+  .sd-demo .sd-table-wrap { overflow-x: auto; }
+</style>
+
+<div class="sd-demo">
+  <h1>School Demo</h1>
+  <p class="sd-lead">
+    A live demo of two school enrollment case studies, built on the Frappe Framework by Almarie Bullo.
+    Sign in with any login below. The data resets every day.
+  </p>
+
+  {% if not seeded %}
+  <div class="sd-note">
+    This site has not been seeded, so the demo logins may not exist yet.
+    Set <code>school_demo_seed</code> to 1 in the site config and run the seed.
+  </div>
+  {% endif %}
+
+  <p>
+    <a class="btn btn-primary btn-sm" href="/login#login">Sign in</a>
+    <a class="btn btn-default btn-sm" href="{{ desk_url }}">Open the School Demo workspace</a>
+  </p>
+
+  <h2>Demo logins</h2>
+  <p>Password for every account: <code>{{ password }}</code></p>
+  <div class="sd-table-wrap">
+    <table>
+      <thead><tr><th>Login</th><th>Role</th><th>What to try</th></tr></thead>
+      <tbody>
+        {% for u in logins %}
+        <tr>
+          <td><code>{{ u.email }}</code></td>
+          <td>{{ u.label }}</td>
+          <td>{{ u.try_this }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% for case in case_studies %}
+  <h2>{{ case.title }}</h2>
+  <ul>
+    {% for step in case.steps %}<li>{{ step }}</li>{% endfor %}
+  </ul>
+  {% endfor %}
+</div>
+{% endblock %}

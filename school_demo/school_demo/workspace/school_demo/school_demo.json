@@ -1,0 +1,253 @@
+{
+ "charts": [],
+ "content": "[{\"id\": \"sd0001\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>School Demo</b></span>\", \"col\": 12}}, {\"id\": \"sd0002\", \"type\": \"paragraph\", \"data\": {\"text\": \"Two case studies: college admission and enrollment, and basic education enrollment. Sign in with a demo login from /demo.\", \"col\": 12}}, {\"id\": \"sd0003\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Dean\", \"col\": 3}}, {\"id\": \"sd0004\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Finance\", \"col\": 3}}, {\"id\": \"sd0005\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Enrolled Students\", \"col\": 3}}, {\"id\": \"sd0006\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Active BEd Enrollments\", \"col\": 3}}, {\"id\": \"sd0007\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"sd0008\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"sd0009\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Applicants\", \"col\": 3}}, {\"id\": \"sd0010\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Enrollment Assessments\", \"col\": 3}}, {\"id\": \"sd0011\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Student Payments\", \"col\": 3}}, {\"id\": \"sd0012\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Enrollment Pipeline\", \"col\": 3}}, {\"id\": \"sd0013\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"BEd Enrollments\", \"col\": 3}}, {\"id\": \"sd0014\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Class Lists\", \"col\": 3}}, {\"id\": \"sd0015\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Demo Guide\", \"col\": 3}}, {\"id\": \"sd0016\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"sd0017\", \"type\": \"card\", \"data\": {\"card_name\": \"College Admission\", \"col\": 4}}, {\"id\": \"sd0018\", \"type\": \"card\", \"data\": {\"card_name\": \"Basic Education\", \"col\": 4}}]",
+ "creation": "2026-10-07 09:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "education",
+ "idx": 0,
+ "indicator_color": "blue",
+ "is_hidden": 0,
+ "label": "School Demo",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "College Admission",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Applicant",
+   "link_count": 0,
+   "link_to": "Applicant",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Enrollment Assessment",
+   "link_count": 0,
+   "link_to": "Enrollment Assessment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Student Payment",
+   "link_count": 0,
+   "link_to": "Student Payment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Enrolled Student",
+   "link_count": 0,
+   "link_to": "Enrolled Student",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Academic Term",
+   "link_count": 0,
+   "link_to": "Academic Term",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Program",
+   "link_count": 0,
+   "link_to": "Program",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Course Subject",
+   "link_count": 0,
+   "link_to": "Course Subject",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Class Schedule",
+   "link_count": 0,
+   "link_to": "Class Schedule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Fee Structure",
+   "link_count": 0,
+   "link_to": "Fee Structure",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Enrollment Pipeline",
+   "link_count": 0,
+   "link_to": "Enrollment Pipeline",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Basic Education",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "BEd Student",
+   "link_count": 0,
+   "link_to": "BEd Student",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "BEd Enrollment",
+   "link_count": 0,
+   "link_to": "BEd Enrollment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Class List",
+   "link_count": 0,
+   "link_to": "Class List",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Student Grade",
+   "link_count": 0,
+   "link_to": "Student Grade",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-10-07 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "School Demo",
+ "name": "School Demo",
+ "number_cards": [
+  {
+   "label": "Pending Dean",
+   "number_card_name": "Pending Dean"
+  },
+  {
+   "label": "Pending Finance",
+   "number_card_name": "Pending Finance"
+  },
+  {
+   "label": "Enrolled Students",
+   "number_card_name": "Enrolled Students"
+  },
+  {
+   "label": "Active BEd Enrollments",
+   "number_card_name": "Active BEd Enrollments"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 1,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Applicants",
+   "link_to": "Applicant",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Enrollment Assessments",
+   "link_to": "Enrollment Assessment",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Student Payments",
+   "link_to": "Student Payment",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "",
+   "label": "Enrollment Pipeline",
+   "link_to": "Enrollment Pipeline",
+   "type": "Report"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "List",
+   "label": "BEd Enrollments",
+   "link_to": "BEd Enrollment",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "List",
+   "label": "Class Lists",
+   "link_to": "Class List",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "",
+   "label": "Demo Guide",
+   "type": "URL",
+   "url": "/demo"
+  }
+ ],
+ "title": "School Demo"
+}

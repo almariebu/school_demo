@@ -1,0 +1,277 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:ASM-{#####}",
+ "creation": "2026-10-07 09:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "applicant",
+  "applicant_name",
+  "academic_term",
+  "column_break_1",
+  "program",
+  "workflow_state",
+  "section_break_1",
+  "max_units",
+  "fee_structure",
+  "column_break_2",
+  "total_units",
+  "section_break_2",
+  "subjects",
+  "section_break_3",
+  "fees",
+  "section_break_4",
+  "tuition_total",
+  "misc_total",
+  "total_fees",
+  "column_break_3",
+  "required_downpayment",
+  "amount_paid",
+  "payment_status",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "applicant",
+   "fieldtype": "Link",
+   "label": "Applicant",
+   "options": "Applicant",
+   "reqd": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "applicant_name",
+   "fieldtype": "Data",
+   "label": "Applicant Name",
+   "fetch_from": "applicant.full_name",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1,
+   "in_standard_filter": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "label": "Program",
+   "options": "Program",
+   "fetch_from": "applicant.program",
+   "fetch_if_empty": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "workflow_state",
+   "fieldtype": "Link",
+   "label": "Workflow State",
+   "options": "Workflow State",
+   "hidden": 1,
+   "read_only": 1,
+   "allow_on_submit": 1,
+   "no_copy": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "Term Rules"
+  },
+  {
+   "fieldname": "max_units",
+   "fieldtype": "Float",
+   "label": "Max Units",
+   "read_only": 1,
+   "description": "Pulled from the Academic Term"
+  },
+  {
+   "fieldname": "fee_structure",
+   "fieldtype": "Link",
+   "label": "Fee Structure",
+   "options": "Fee Structure",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_units",
+   "fieldtype": "Float",
+   "label": "Total Units",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Subjects"
+  },
+  {
+   "fieldname": "subjects",
+   "fieldtype": "Table",
+   "label": "Subjects",
+   "options": "Assessment Subject"
+  },
+  {
+   "fieldname": "section_break_3",
+   "fieldtype": "Section Break",
+   "label": "Fees"
+  },
+  {
+   "fieldname": "fees",
+   "fieldtype": "Table",
+   "label": "Fees",
+   "options": "Assessment Fee",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break",
+   "label": "Totals and Payment"
+  },
+  {
+   "fieldname": "tuition_total",
+   "fieldtype": "Currency",
+   "label": "Tuition Total",
+   "read_only": 1
+  },
+  {
+   "fieldname": "misc_total",
+   "fieldtype": "Currency",
+   "label": "Misc Total",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_fees",
+   "fieldtype": "Currency",
+   "label": "Total Fees",
+   "read_only": 1,
+   "bold": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "required_downpayment",
+   "fieldtype": "Currency",
+   "label": "Required Downpayment",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amount_paid",
+   "fieldtype": "Currency",
+   "label": "Amount Paid",
+   "read_only": 1,
+   "allow_on_submit": 1
+  },
+  {
+   "fieldname": "payment_status",
+   "fieldtype": "Select",
+   "label": "Payment Status",
+   "options": "Unpaid\nPartial\nDown Payment Met\nFully Paid",
+   "read_only": 1,
+   "allow_on_submit": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "options": "Enrollment Assessment",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1,
+   "print_hide": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-10-07 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "School Demo",
+ "name": "Enrollment Assessment",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "submit": 1,
+   "cancel": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Registrar",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "submit": 1,
+   "cancel": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Dean",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Finance Officer",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Cashier",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
+ ],
+ "search_fields": "applicant_name,academic_term",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "applicant_name",
+ "track_changes": 1
+}

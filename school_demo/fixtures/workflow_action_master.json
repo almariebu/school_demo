@@ -1,0 +1,27 @@
+[
+ {
+  "doctype": "Workflow Action Master",
+  "name": "Submit for Dean Review",
+  "workflow_action_name": "Submit for Dean Review"
+ },
+ {
+  "doctype": "Workflow Action Master",
+  "name": "Approve",
+  "workflow_action_name": "Approve"
+ },
+ {
+  "doctype": "Workflow Action Master",
+  "name": "Reject",
+  "workflow_action_name": "Reject"
+ },
+ {
+  "doctype": "Workflow Action Master",
+  "name": "Enroll",
+  "workflow_action_name": "Enroll"
+ },
+ {
+  "doctype": "Workflow Action Master",
+  "name": "Reopen",
+  "workflow_action_name": "Reopen"
+ }
+]

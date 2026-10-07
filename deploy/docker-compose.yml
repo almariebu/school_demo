@@ -1,0 +1,152 @@
+# School Demo on Frappe version-15, modelled on frappe_docker's pwd.yml.
+#
+#   1. cp .env.example .env   (then edit the passwords)
+#   2. ./build.sh             (builds ${CUSTOM_IMAGE}:${CUSTOM_TAG} from apps.json)
+#   3. docker compose up -d
+#   4. open http://localhost:${HTTP_PUBLISH_PORT:-8080}/demo
+#
+# The `create-site` job creates the site, sets `school_demo_seed: 1` BEFORE installing the app,
+# so after_install seeds the demo data. Frappe only (no ERPNext).
+
+x-custom-image: &custom_image
+  image: ${CUSTOM_IMAGE:-school_demo}:${CUSTOM_TAG:-latest}
+  pull_policy: ${PULL_POLICY:-never}
+  platform: linux/amd64
+  restart: unless-stopped
+
+x-backend-defaults: &backend_defaults
+  <<: *custom_image
+  volumes:
+    - sites:/home/frappe/frappe-bench/sites
+    - logs:/home/frappe/frappe-bench/logs
+  depends_on:
+    configurator:
+      condition: service_completed_successfully
+
+services:
+  configurator:
+    <<: *backend_defaults
+    restart: "no"
+    entrypoint: ["bash", "-c"]
+    command:
+      - >
+        ls -1 apps > sites/apps.txt;
+        bench set-config -g db_host db;
+        bench set-config -gp db_port 3306;
+        bench set-config -g redis_cache "redis://redis-cache:6379";
+        bench set-config -g redis_queue "redis://redis-queue:6379";
+        bench set-config -g redis_socketio "redis://redis-queue:6379";
+        bench set-config -gp socketio_port 9000;
+    depends_on:
+      db:
+        condition: service_healthy
+      redis-cache:
+        condition: service_started
+      redis-queue:
+        condition: service_started
+
+  backend:
+    <<: *backend_defaults
+
+  frontend:
+    <<: *backend_defaults
+    command: ["nginx-entrypoint.sh"]
+    environment:
+      BACKEND: backend:8000
+      SOCKETIO: websocket:9000
+      FRAPPE_SITE_NAME_HEADER: ${SITE_NAME:-demo.localhost}
+      UPSTREAM_REAL_IP_ADDRESS: 127.0.0.1
+      UPSTREAM_REAL_IP_HEADER: X-Forwarded-For
+      UPSTREAM_REAL_IP_RECURSIVE: "off"
+      PROXY_READ_TIMEOUT: 120
+      CLIENT_MAX_BODY_SIZE: 50m
+    ports:
+      - "${HTTP_PUBLISH_PORT:-8080}:8080"
+    depends_on:
+      - backend
+      - websocket
+
+  websocket:
+    <<: *backend_defaults
+    command: ["node", "/home/frappe/frappe-bench/apps/frappe/socketio.js"]
+
+  queue-short:
+    <<: *backend_defaults
+    command: ["bench", "worker", "--queue", "short,default"]
+
+  queue-long:
+    <<: *backend_defaults
+    command: ["bench", "worker", "--queue", "long,default,short"]
+
+  # runs the daily school_demo.setup.reset.reset_demo job
+  scheduler:
+    <<: *backend_defaults
+    command: ["bench", "schedule"]
+
+  create-site:
+    <<: *backend_defaults
+    restart: "no"
+    entrypoint: ["bash", "-c"]
+    command:
+      - >
+        wait-for-it -t 120 db:3306;
+        wait-for-it -t 120 redis-cache:6379;
+        wait-for-it -t 120 redis-queue:6379;
+        export start=`date +%s`;
+        until [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".db_host // empty"` ]] &&
+          [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_cache // empty"` ]] &&
+          [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_queue // empty"` ]];
+        do
+          echo "Waiting for sites/common_site_config.json to be created";
+          sleep 5;
+          if (( `date +%s`-start > 120 )); then
+            echo "could not find sites/common_site_config.json with required keys";
+            exit 1
+          fi
+        done;
+        echo "sites/common_site_config.json found";
+        if [ ! -d "sites/${SITE_NAME:-demo.localhost}" ]; then
+          bench new-site --mariadb-user-host-login-scope='%' --admin-password=${ADMIN_PASSWORD:-admin} --db-root-password=${DB_ROOT_PASSWORD:-admin} --set-default ${SITE_NAME:-demo.localhost};
+          bench --site ${SITE_NAME:-demo.localhost} set-config school_demo_seed 1;
+          bench --site ${SITE_NAME:-demo.localhost} install-app school_demo;
+        else
+          bench --site ${SITE_NAME:-demo.localhost} migrate;
+        fi;
+        bench --site ${SITE_NAME:-demo.localhost} execute school_demo.setup.demo_data.seed;
+        bench --site ${SITE_NAME:-demo.localhost} scheduler enable;
+    depends_on:
+      configurator:
+        condition: service_completed_successfully
+
+  db:
+    image: mariadb:10.6
+    healthcheck:
+      test: mysqladmin ping -h localhost --password=${DB_ROOT_PASSWORD:-admin}
+      interval: 1s
+      retries: 20
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-admin}
+    volumes:
+      - db-data:/var/lib/mysql
+
+  redis-cache:
+    image: redis:6.2-alpine
+    restart: unless-stopped
+
+  redis-queue:
+    image: redis:6.2-alpine
+    restart: unless-stopped
+    volumes:
+      - redis-queue-data:/data
+
+volumes:
+  db-data:
+  redis-queue-data:
+  sites:
+  logs:

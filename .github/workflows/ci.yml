@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  logic-tests:
+    name: Pure logic tests and syntax checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Unit tests (no bench required)
+        run: python -m unittest tests.test_logic -v
+      - name: Compile all Python files
+        run: python -m compileall -q school_demo tests
+      - name: Validate JSON files
+        run: find . -name '*.json' -not -path './.git/*' -print0 | xargs -0 -n1 python -m json.tool > /dev/null

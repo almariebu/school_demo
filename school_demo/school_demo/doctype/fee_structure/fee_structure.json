@@ -1,0 +1,130 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:FS-{academic_term}",
+ "creation": "2026-10-07 09:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "academic_term",
+  "tuition_per_unit",
+  "column_break_1",
+  "required_downpayment",
+  "total_misc",
+  "section_break_1",
+  "misc_fees"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "tuition_per_unit",
+   "fieldtype": "Currency",
+   "label": "Tuition Per Unit",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "required_downpayment",
+   "fieldtype": "Currency",
+   "label": "Required Downpayment",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Minimum paid down payment before an assessment can be locked as Enrolled"
+  },
+  {
+   "fieldname": "total_misc",
+   "fieldtype": "Currency",
+   "label": "Total Miscellaneous",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "Miscellaneous Fees"
+  },
+  {
+   "fieldname": "misc_fees",
+   "fieldtype": "Table",
+   "label": "Misc Fees",
+   "options": "Fee Structure Item"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-07 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "School Demo",
+ "name": "Fee Structure",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Registrar",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Finance Officer",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Dean",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Cashier",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

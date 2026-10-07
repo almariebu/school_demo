@@ -1,0 +1,21 @@
+[project]
+name = "school_demo"
+authors = [
+    { name = "Almarie Bullo", email = "almariebu@gmail.com"}
+]
+description = "Live demo of two school enrollment case studies built on the Frappe Framework"
+requires-python = ">=3.10"
+readme = "README.md"
+dynamic = ["version"]
+license = { text = "MIT" }
+dependencies = [
+    # "frappe~=15.0.0" # Installed and managed by bench.
+]
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+# These dependencies are only installed when developer mode is enabled
+[tool.bench.dev-dependencies]
+# package_name = "~=1.1.0"

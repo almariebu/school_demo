@@ -1,0 +1,38 @@
+[
+ {
+  "doctype": "Workflow State",
+  "name": "Draft",
+  "workflow_state_name": "Draft",
+  "style": "Warning"
+ },
+ {
+  "doctype": "Workflow State",
+  "name": "Pending Dean",
+  "workflow_state_name": "Pending Dean",
+  "style": "Info"
+ },
+ {
+  "doctype": "Workflow State",
+  "name": "Pending Registrar",
+  "workflow_state_name": "Pending Registrar",
+  "style": "Info"
+ },
+ {
+  "doctype": "Workflow State",
+  "name": "Pending Finance",
+  "workflow_state_name": "Pending Finance",
+  "style": "Primary"
+ },
+ {
+  "doctype": "Workflow State",
+  "name": "Enrolled",
+  "workflow_state_name": "Enrolled",
+  "style": "Success"
+ },
+ {
+  "doctype": "Workflow State",
+  "name": "Rejected",
+  "workflow_state_name": "Rejected",
+  "style": "Danger"
+ }
+]

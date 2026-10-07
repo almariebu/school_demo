@@ -1,0 +1,116 @@
+[
+ {
+  "doctype": "Workflow",
+  "name": "Enrollment Assessment Approval",
+  "workflow_name": "Enrollment Assessment Approval",
+  "document_type": "Enrollment Assessment",
+  "is_active": 1,
+  "override_status": 0,
+  "send_email_alert": 0,
+  "workflow_state_field": "workflow_state",
+  "states": [
+   {
+    "doctype": "Workflow Document State",
+    "state": "Draft",
+    "doc_status": "0",
+    "allow_edit": "Registrar"
+   },
+   {
+    "doctype": "Workflow Document State",
+    "state": "Pending Dean",
+    "doc_status": "0",
+    "allow_edit": "Dean"
+   },
+   {
+    "doctype": "Workflow Document State",
+    "state": "Pending Registrar",
+    "doc_status": "0",
+    "allow_edit": "Registrar"
+   },
+   {
+    "doctype": "Workflow Document State",
+    "state": "Pending Finance",
+    "doc_status": "0",
+    "allow_edit": "Finance Officer"
+   },
+   {
+    "doctype": "Workflow Document State",
+    "state": "Enrolled",
+    "doc_status": "1",
+    "allow_edit": "Finance Officer"
+   },
+   {
+    "doctype": "Workflow Document State",
+    "state": "Rejected",
+    "doc_status": "0",
+    "allow_edit": "Registrar"
+   }
+  ],
+  "transitions": [
+   {
+    "doctype": "Workflow Transition",
+    "state": "Draft",
+    "action": "Submit for Dean Review",
+    "next_state": "Pending Dean",
+    "allowed": "Registrar",
+    "allow_self_approval": 1
+   },
+   {
+    "doctype": "Workflow Transition",
+    "state": "Pending Dean",
+    "action": "Approve",
+    "next_state": "Pending Registrar",
+    "allowed": "Dean",
+    "allow_self_approval": 1
+   },
+   {
+    "doctype": "Workflow Transition",
+    "state": "Pending Dean",
+    "action": "Reject",
+    "next_state": "Rejected",
+    "allowed": "Dean",
+    "allow_self_approval": 1
+   },
+   {
+    "doctype": "Workflow Transition",
+    "state": "Pending Registrar",
+    "action": "Approve",
+    "next_state": "Pending Finance",
+    "allowed": "Registrar",
+    "allow_self_approval": 1
+   },
+   {
+    "doctype": "Workflow Transition",
+    "state": "Pending Registrar",
+    "action": "Reject",
+    "next_state": "Rejected",
+    "allowed": "Registrar",
+    "allow_self_approval": 1
+   },
+   {
+    "doctype": "Workflow Transition",
+    "state": "Pending Finance",
+    "action": "Enroll",
+    "next_state": "Enrolled",
+    "allowed": "Finance Officer",
+    "allow_self_approval": 1
+   },
+   {
+    "doctype": "Workflow Transition",
+    "state": "Pending Finance",
+    "action": "Reject",
+    "next_state": "Rejected",
+    "allowed": "Finance Officer",
+    "allow_self_approval": 1
+   },
+   {
+    "doctype": "Workflow Transition",
+    "state": "Rejected",
+    "action": "Reopen",
+    "next_state": "Draft",
+    "allowed": "Registrar",
+    "allow_self_approval": 1
+   }
+  ]
+ }
+]
