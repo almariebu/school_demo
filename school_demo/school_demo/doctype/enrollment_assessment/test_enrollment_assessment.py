@@ -51,11 +51,36 @@ class TestEnrollmentAssessment(FrappeTestCase):
         utils.make_payment(doc.name, 1000)
         with self.assertRaises(frappe.ValidationError):
             doc.check_payment()  # still below the 5,000 requirement
+        self.assertEqual(doc.payment_status, "Partial")
 
         utils.make_payment(doc.name, 4000)
         doc.check_payment()  # passes now
         self.assertEqual(doc.amount_paid, 5000)
-        self.assertEqual(doc.payment_status, "Down Payment Met")
+        # one subject costs 2,000 in total, so 5,000 also covers the full fees
+        self.assertEqual(doc.payment_status, "Fully Paid")
+
+    def test_finance_enroll_action_respects_payment_gate(self):
+        from frappe.model.workflow import apply_workflow
+
+        utils.make_user("finance.test@example.ph", ["Finance Officer"])
+        doc = utils.make_assessment(self.applicant.name, self.term, ["TST-S1"])
+        frappe.db.set_value("Enrollment Assessment", doc.name, "workflow_state", "Pending Finance")
+        doc.reload()
+        self.addCleanup(frappe.set_user, "Administrator")
+        frappe.set_user("finance.test@example.ph")
+
+        with self.assertRaises(frappe.ValidationError):
+            apply_workflow(doc, "Enroll")
+        self.assertEqual(frappe.db.get_value("Enrollment Assessment", doc.name, "docstatus"), 0)
+
+        frappe.set_user("Administrator")
+        utils.make_payment(doc.name, 5000)
+        doc.reload()
+        frappe.set_user("finance.test@example.ph")
+        apply_workflow(doc, "Enroll")
+        self.assertEqual(
+            frappe.db.get_value("Enrollment Assessment", doc.name, ["docstatus", "workflow_state"]), (1, "Enrolled")
+        )
 
     def test_unsubmitted_payment_does_not_count(self):
         doc = utils.make_assessment(self.applicant.name, self.term, ["TST-S1"])

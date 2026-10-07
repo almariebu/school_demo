@@ -29,6 +29,8 @@ class TestStudentPayment(FrappeTestCase):
         self.assertEqual(self.assessment.get_paid_amount(), 0)
 
     def test_rejected_assessment_cannot_receive_payment(self):
+        original = frappe.db.get_value("Enrollment Assessment", self.assessment.name, "workflow_state")
+        self.addCleanup(frappe.db.set_value, "Enrollment Assessment", self.assessment.name, "workflow_state", original)
         frappe.db.set_value("Enrollment Assessment", self.assessment.name, "workflow_state", "Rejected")
         with self.assertRaises(frappe.ValidationError):
             utils.make_payment(self.assessment.name, 100)
