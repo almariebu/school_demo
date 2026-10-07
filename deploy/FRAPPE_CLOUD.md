@@ -79,3 +79,5 @@ The seed is idempotent. Running it again does not create duplicates.
 ## Self-hosting instead
 
 See `deploy/docker-compose.yml` (frappe_docker style, custom image built from `deploy/apps.json`).
+
+Free alternative on your own VM: see [`oracle/ORACLE_CLOUD.md`](oracle/ORACLE_CLOUD.md) (Oracle Cloud Always Free, ARM).

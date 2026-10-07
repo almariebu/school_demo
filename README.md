@@ -80,6 +80,7 @@ bench --site demo.localhost execute school_demo.setup.reset.reset_demo --kwargs 
 ```
 
 Docker: see `deploy/docker-compose.yml`. Frappe Cloud: see `deploy/FRAPPE_CLOUD.md`.
+Free self-hosting on Oracle Cloud Always Free (ARM): see [`deploy/oracle/ORACLE_CLOUD.md`](deploy/oracle/ORACLE_CLOUD.md).
 
 ## Demo logins
 
@@ -122,7 +123,7 @@ school_demo/
   www/             demo.html + demo.py (public landing page)
   tests/utils.py   factories for the FrappeTestCase tests
 tests/test_logic.py   plain unittest for logic.py
-deploy/               docker-compose, apps.json, build.sh, FRAPPE_CLOUD.md
+deploy/               docker-compose, apps.json, build.sh, FRAPPE_CLOUD.md, oracle/ (Oracle Cloud guide + setup.sh)
 ```
 
 ## License
