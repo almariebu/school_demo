@@ -6,6 +6,10 @@ from school_demo.setup.demo_data import seed
 
 # children before parents
 DEMO_DOCTYPES = [
+    "Legacy Fee",
+    "Fee Code Map",
+    "Staff Member",
+    "Designation Role Map",
     "Student Ledger",
     "Account Closing",
     "Cash Count",

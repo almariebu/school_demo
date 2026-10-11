@@ -343,3 +343,36 @@ class FinalGradeTests(unittest.TestCase):
 
     def test_no_grades(self):
         self.assertEqual(logic.final_grade({}), {"average": None, "remarks": "Incomplete"})
+
+
+class MigrationTests(unittest.TestCase):
+    DEFAULTS = {"Registrar Clerk": ["Registrar"], "Cashier Clerk": ["Cashier", "Finance Officer"]}
+
+    def test_default_roles_are_added_and_existing_kept(self):
+        self.assertEqual(logic.roles_to_add(["Teacher"], "Registrar Clerk", self.DEFAULTS), ["Registrar"])
+
+    def test_default_roles_are_idempotent(self):
+        self.assertEqual(logic.roles_to_add(["Registrar"], "Registrar Clerk", self.DEFAULTS), [])
+
+    def test_unknown_designation_adds_nothing(self):
+        self.assertEqual(logic.roles_to_add([], "Janitor", self.DEFAULTS), [])
+        self.assertEqual(logic.roles_to_add([], None, self.DEFAULTS), [])
+
+    def test_fee_codes_split_into_mapped_and_unmapped(self):
+        r = logic.map_fee_codes(["OLD-TUI", "OLD-LAB", "OLD-REG"], {"OLD-TUI": "Tuition", "OLD-REG": "Registration", "X": ""})
+        self.assertEqual(r["mapped"], {"OLD-TUI": "Tuition", "OLD-REG": "Registration"})
+        self.assertEqual(r["unmapped"], ["OLD-LAB"])
+
+    def test_empty_mapping_target_counts_as_unmapped(self):
+        self.assertEqual(logic.map_fee_codes(["X"], {"X": ""})["unmapped"], ["X"])
+
+    def test_file_recovery_never_overwrites(self):
+        self.assertEqual(logic.recovery_action(True, "a.pdf", ["a.pdf"]), "kept")
+        self.assertEqual(logic.recovery_action(False, "a.pdf", ["a.pdf"]), "recovered")
+        self.assertEqual(logic.recovery_action(False, "b.pdf", ["a.pdf"]), "not in backup")
+
+    def test_backup_names_must_not_escape_the_folder(self):
+        for bad in ["../x.pdf", "a/b.pdf", "..", "", "a\\b.pdf"]:
+            with self.assertRaises(LogicError):
+                logic.safe_filename(bad)
+        self.assertEqual(logic.safe_filename("report 1.pdf"), "report 1.pdf")
