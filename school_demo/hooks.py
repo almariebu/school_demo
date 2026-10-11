@@ -10,6 +10,7 @@ app_license = "MIT"
 # Includes in <head>
 # ------------------
 app_include_js = "/assets/school_demo/js/school_demo.js"
+doctype_list_js = {"Enrollment Assessment": "public/js/enrollment_assessment_list.js"}
 
 # Installation
 # ------------

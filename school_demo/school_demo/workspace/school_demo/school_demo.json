@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\": \"sd0001\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>School Demo</b></span>\", \"col\": 12}}, {\"id\": \"sd0002\", \"type\": \"paragraph\", \"data\": {\"text\": \"Two case studies: college admission and enrollment, and basic education enrollment. Sign in with a demo login from /demo.\", \"col\": 12}}, {\"id\": \"sd0003\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Dean\", \"col\": 3}}, {\"id\": \"sd0004\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Finance\", \"col\": 3}}, {\"id\": \"sd0005\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Enrolled Students\", \"col\": 3}}, {\"id\": \"sd0006\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Active BEd Enrollments\", \"col\": 3}}, {\"id\": \"sd0007\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"sd0008\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"sd0009\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Applicants\", \"col\": 3}}, {\"id\": \"sd0010\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Enrollment Assessments\", \"col\": 3}}, {\"id\": \"sd0011\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Student Payments\", \"col\": 3}}, {\"id\": \"sd0012\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Enrollment Pipeline\", \"col\": 3}}, {\"id\": \"sd0013\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"BEd Enrollments\", \"col\": 3}}, {\"id\": \"sd0014\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Class Lists\", \"col\": 3}}, {\"id\": \"sd0015\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Demo Guide\", \"col\": 3}}, {\"id\": \"sd0016\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"sd0017\", \"type\": \"card\", \"data\": {\"card_name\": \"College Admission\", \"col\": 4}}, {\"id\": \"sd0018\", \"type\": \"card\", \"data\": {\"card_name\": \"Basic Education\", \"col\": 4}}]",
+ "content": "[{\"id\": \"sd0001\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>School Demo</b></span>\", \"col\": 12}}, {\"id\": \"sd0002\", \"type\": \"paragraph\", \"data\": {\"text\": \"School-system case studies: enrollment, online payments, notifications, account closing, discounts and grading. Sign in with a demo login from /demo.\", \"col\": 12}}, {\"id\": \"sd0003\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Dean\", \"col\": 3}}, {\"id\": \"sd0004\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Finance\", \"col\": 3}}, {\"id\": \"sd0005\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Enrolled Students\", \"col\": 3}}, {\"id\": \"sd0006\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Active BEd Enrollments\", \"col\": 3}}, {\"id\": \"sd0007\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"sd0008\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"sd0009\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Applicants\", \"col\": 3}}, {\"id\": \"sd0010\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Enrollment Assessments\", \"col\": 3}}, {\"id\": \"sd0011\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Student Payments\", \"col\": 3}}, {\"id\": \"sd0012\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Enrollment Pipeline\", \"col\": 3}}, {\"id\": \"sd0013\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"BEd Enrollments\", \"col\": 3}}, {\"id\": \"sd0014\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Class Lists\", \"col\": 3}}, {\"id\": \"sd0015\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Demo Guide\", \"col\": 3}}, {\"id\": \"sd0016\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"sd0017\", \"type\": \"card\", \"data\": {\"card_name\": \"College Admission\", \"col\": 4}}, {\"id\": \"sd0018\", \"type\": \"card\", \"data\": {\"card_name\": \"Basic Education\", \"col\": 4}}, {\"id\": \"sd0019\", \"type\": \"card\", \"data\": {\"card_name\": \"Billing and Cashiering\", \"col\": 4}}, {\"id\": \"sd0020\", \"type\": \"card\", \"data\": {\"card_name\": \"Messaging\", \"col\": 4}}]",
  "creation": "2026-10-07 09:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
@@ -165,6 +165,132 @@
    "label": "Student Grade",
    "link_count": 0,
    "link_to": "Student Grade",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Billing and Cashiering",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Student Fee",
+   "link_count": 0,
+   "link_to": "Student Fee",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Online Payment",
+   "link_count": 0,
+   "link_to": "Online Payment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Account Closing",
+   "link_count": 0,
+   "link_to": "Account Closing",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Student Ledger",
+   "link_count": 0,
+   "link_to": "Student Ledger",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Cash Count",
+   "link_count": 0,
+   "link_to": "Cash Count",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Student Discount",
+   "link_count": 0,
+   "link_to": "Student Discount",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "School Settings",
+   "link_count": 0,
+   "link_to": "School Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Discount Summary",
+   "link_count": 0,
+   "link_to": "Discount Summary",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Student Grade Report",
+   "link_count": 0,
+   "link_to": "Student Grade Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Messaging",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Message Sender",
+   "link_count": 0,
+   "link_to": "Message Sender",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Outgoing Message",
+   "link_count": 0,
+   "link_to": "Outgoing Message",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
