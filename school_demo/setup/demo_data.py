@@ -131,6 +131,7 @@ def seed():
     _basic_education()
     _billing_and_messaging()
     _closing_and_discounts()
+    _migration()
     frappe.db.commit()
     return "School Demo data is ready."
 
@@ -331,3 +332,18 @@ def _closing_and_discounts():
     term = assessments[0].academic_term
     _get_or_create("Account Closing", {"academic_term": term}, {"as_of_date": "2026-10-20", "due_date": "2026-10-15"})
     _get_or_create("Cash Count", {"count_date": "2026-10-11", "cashier": "cashier@demo.local"}, {"counted": 5000})
+
+
+# ------------------------------------------------- roles and data migration
+def _migration():
+    if not frappe.db.exists("Designation Role Map", "Registrar Clerk"):
+        _insert({"doctype": "Designation Role Map", "designation": "Registrar Clerk", "roles": [{"role": "Registrar"}]})
+    if not frappe.db.exists("Designation Role Map", "Cashier Clerk"):
+        _insert({"doctype": "Designation Role Map", "designation": "Cashier Clerk", "roles": [{"role": "Cashier"}]})
+    _get_or_create("Staff Member", {"user": "registrar@demo.local"}, {"designation": "Registrar Clerk"})
+    _get_or_create("Staff Member", {"user": "cashier@demo.local"}, {"designation": "Cashier Clerk"})
+    for old, new in [("OLD-TUI", "Tuition"), ("OLD-REG", "Registration")]:
+        _get_or_create("Fee Code Map", {"old_code": old}, {"new_fee": new})
+    student = frappe.db.get_value("Enrolled Student", {}, "name")
+    for old, amount in [("OLD-TUI", 12000), ("OLD-REG", 500), ("OLD-LAB", 800)]:  # OLD-LAB has no mapping on purpose
+        _get_or_create("Legacy Fee", {"old_code": old, "student": student}, {"amount": amount})

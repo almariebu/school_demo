@@ -397,3 +397,33 @@ def final_grade(grades: Mapping[str, float]) -> dict:
     if len(values) < len(QUARTERS):
         return {"average": average, "remarks": "Incomplete"}
     return {"average": average, "remarks": "Passed" if average >= PASSING_GRADE else "Failed"}
+
+
+# ----------------------------------------- case 8: roles and data migration
+def roles_to_add(current_roles: Iterable[str], designation: Optional[str], defaults: Mapping[str, Sequence[str]]) -> list:
+    """Default roles for a designation that the user does not have yet. Existing roles are kept."""
+    have = set(current_roles)
+    return [r for r in defaults.get(designation or "", ()) if r not in have]
+
+
+def map_fee_codes(codes: Iterable[str], mapping: Mapping[str, str]) -> dict:
+    """Split legacy fee codes into those with a new fee and those still unmapped."""
+    codes = list(codes)
+    return {
+        "mapped": {c: mapping[c] for c in codes if mapping.get(c)},
+        "unmapped": [c for c in codes if not mapping.get(c)],
+    }
+
+
+def recovery_action(on_disk: bool, name: str, backup_names: Iterable[str]) -> str:
+    """A file already on disk is never overwritten."""
+    if on_disk:
+        return "kept"
+    return "recovered" if name in set(backup_names) else "not in backup"
+
+
+def safe_filename(name: str) -> str:
+    """A bare file name only: no folders, no parent references."""
+    if not name or name in (".", "..") or "/" in name or "\\" in name:
+        raise LogicError(f"Unsafe file name: {name!r}")
+    return name

@@ -1,0 +1,49 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-11 11:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "backup_folder",
+  "last_result"
+ ],
+ "fields": [
+  {
+   "fieldname": "backup_folder",
+   "fieldtype": "Data",
+   "label": "Backup Folder",
+   "description": "A folder name inside this site's private/backups, holding the files to recover from"
+  },
+  {
+   "fieldname": "last_result",
+   "fieldtype": "Code",
+   "label": "Last Result",
+   "read_only": 1,
+   "options": "JSON"
+  }
+ ],
+ "issingle": 1,
+ "modified": "2026-10-11 11:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "School Demo",
+ "name": "Migration Tools",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

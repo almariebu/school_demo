@@ -16,6 +16,8 @@ on the **Frappe Framework v15** only (no ERPNext).
 6. **Student discounts**: percent or fixed, from the full assessment or the unpaid balance, applied
    to many students at once, with a summary report.
 7. **Grading**: quarterly grades with a final grade and Passed / Failed / Incomplete remarks.
+8. **Roles and data migration**: default roles by designation, legacy fee mapping, and file
+   recovery after an upgrade that never overwrites a file already on disk.
 
 All business rules live in [`school_demo/logic.py`](school_demo/logic.py), which has **no Frappe
 imports**, so they are tested with plain `unittest` without a bench.
@@ -95,6 +97,17 @@ imports**, so they are tested with plain `unittest` without a bench.
 | Grade records show the current student name | `Student Grade`, `Class List` (case study 2) and the report below read the name from `BEd Student` |
 | Grade validation | `logic.check_grade` (0 to 100) |
 | Printable grade report with final grade and remarks | Script Report **Student Grade Report**, rule in `logic.final_grade`; teachers see only their own grades |
+
+### Case study 8: Roles and data migration
+
+| Requirement | Implemented in |
+| --- | --- |
+| Default roles by designation, existing roles kept, safe to re-run | `migration.apply_default_roles`, rule in `logic.roles_to_add`; DocTypes `Designation Role Map`, `Staff Member` |
+| Old fee codes mapped to new fees, unmapped ones reported | `migration.map_legacy_fees`, rule in `logic.map_fee_codes`; DocTypes `Fee Code Map`, `Legacy Fee` |
+| Missing file attachments recovered without overwriting a file on disk | `migration.recover_files`, rule in `logic.recovery_action`; reads only from a folder inside the site's `private/backups` (`logic.safe_filename`) |
+| One place to run all three and see the result | Single DocType **Migration Tools** (buttons under Run) |
+
+All three actions need System Manager (fee mapping also allows Finance Officer).
 
 ### Also included
 

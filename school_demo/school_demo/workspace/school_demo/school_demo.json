@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\": \"sd0001\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>School Demo</b></span>\", \"col\": 12}}, {\"id\": \"sd0002\", \"type\": \"paragraph\", \"data\": {\"text\": \"School-system case studies: enrollment, online payments, notifications, account closing, discounts and grading. Sign in with a demo login from /demo.\", \"col\": 12}}, {\"id\": \"sd0003\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Dean\", \"col\": 3}}, {\"id\": \"sd0004\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Finance\", \"col\": 3}}, {\"id\": \"sd0005\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Enrolled Students\", \"col\": 3}}, {\"id\": \"sd0006\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Active BEd Enrollments\", \"col\": 3}}, {\"id\": \"sd0007\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"sd0008\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"sd0009\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Applicants\", \"col\": 3}}, {\"id\": \"sd0010\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Enrollment Assessments\", \"col\": 3}}, {\"id\": \"sd0011\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Student Payments\", \"col\": 3}}, {\"id\": \"sd0012\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Enrollment Pipeline\", \"col\": 3}}, {\"id\": \"sd0013\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"BEd Enrollments\", \"col\": 3}}, {\"id\": \"sd0014\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Class Lists\", \"col\": 3}}, {\"id\": \"sd0015\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Demo Guide\", \"col\": 3}}, {\"id\": \"sd0016\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"sd0017\", \"type\": \"card\", \"data\": {\"card_name\": \"College Admission\", \"col\": 4}}, {\"id\": \"sd0018\", \"type\": \"card\", \"data\": {\"card_name\": \"Basic Education\", \"col\": 4}}, {\"id\": \"sd0019\", \"type\": \"card\", \"data\": {\"card_name\": \"Billing and Cashiering\", \"col\": 4}}, {\"id\": \"sd0020\", \"type\": \"card\", \"data\": {\"card_name\": \"Messaging\", \"col\": 4}}]",
+ "content": "[{\"id\": \"sd0001\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>School Demo</b></span>\", \"col\": 12}}, {\"id\": \"sd0002\", \"type\": \"paragraph\", \"data\": {\"text\": \"School-system case studies: enrollment, online payments, notifications, account closing, discounts, grading and migration. Sign in with a demo login from /demo.\", \"col\": 12}}, {\"id\": \"sd0003\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Dean\", \"col\": 3}}, {\"id\": \"sd0004\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Finance\", \"col\": 3}}, {\"id\": \"sd0005\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Enrolled Students\", \"col\": 3}}, {\"id\": \"sd0006\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Active BEd Enrollments\", \"col\": 3}}, {\"id\": \"sd0007\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"sd0008\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"sd0009\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Applicants\", \"col\": 3}}, {\"id\": \"sd0010\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Enrollment Assessments\", \"col\": 3}}, {\"id\": \"sd0011\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Student Payments\", \"col\": 3}}, {\"id\": \"sd0012\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Enrollment Pipeline\", \"col\": 3}}, {\"id\": \"sd0013\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"BEd Enrollments\", \"col\": 3}}, {\"id\": \"sd0014\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Class Lists\", \"col\": 3}}, {\"id\": \"sd0015\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Demo Guide\", \"col\": 3}}, {\"id\": \"sd0016\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"sd0017\", \"type\": \"card\", \"data\": {\"card_name\": \"College Admission\", \"col\": 4}}, {\"id\": \"sd0018\", \"type\": \"card\", \"data\": {\"card_name\": \"Basic Education\", \"col\": 4}}, {\"id\": \"sd0019\", \"type\": \"card\", \"data\": {\"card_name\": \"Billing and Cashiering\", \"col\": 4}}, {\"id\": \"sd0020\", \"type\": \"card\", \"data\": {\"card_name\": \"Messaging\", \"col\": 4}}, {\"id\": \"sd0021\", \"type\": \"card\", \"data\": {\"card_name\": \"Migration\", \"col\": 4}}]",
  "creation": "2026-10-07 09:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
@@ -291,6 +291,64 @@
    "label": "Outgoing Message",
    "link_count": 0,
    "link_to": "Outgoing Message",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Migration",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Migration Tools",
+   "link_count": 0,
+   "link_to": "Migration Tools",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Designation Role Map",
+   "link_count": 0,
+   "link_to": "Designation Role Map",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Staff Member",
+   "link_count": 0,
+   "link_to": "Staff Member",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Fee Code Map",
+   "link_count": 0,
+   "link_to": "Fee Code Map",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Legacy Fee",
+   "link_count": 0,
+   "link_to": "Legacy Fee",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
