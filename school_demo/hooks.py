@@ -56,4 +56,5 @@ doc_events = {
 # -----------------------------------------------------------
 scheduler_events = {
     "daily": ["school_demo.setup.reset.reset_demo"],
+    "hourly": ["school_demo.messaging.reroute_stuck"],
 }

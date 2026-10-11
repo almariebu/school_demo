@@ -199,3 +199,73 @@ class ReportTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OnlinePaymentTests(unittest.TestCase):
+    FEES = [
+        {"id": "F2", "due": "2026-09-01", "amount": 3000, "paid": 0},
+        {"id": "F1", "due": "2026-08-01", "amount": 5000, "paid": 4000},
+        {"id": "F3", "due": "2026-10-01", "amount": 2000, "paid": 2000},
+    ]
+
+    def test_oldest_due_first_and_paid_fee_skipped(self):
+        r = logic.allocate_payment(2500, self.FEES)
+        self.assertEqual(r["applied"], {"F1": 1000, "F2": 1500})
+        self.assertEqual(r["credit"], 0)
+
+    def test_overpayment_becomes_credit(self):
+        r = logic.allocate_payment(10000, self.FEES)
+        self.assertEqual(r["applied"], {"F1": 1000, "F2": 3000})
+        self.assertEqual(r["credit"], 6000)
+
+    def test_zero_amount_raises(self):
+        with self.assertRaises(LogicError):
+            logic.allocate_payment(0, self.FEES)
+
+    def test_payment_link_from_settings(self):
+        link = logic.build_payment_link(" https://pay.example.ph/ ", "M-1", "PAY 001")
+        self.assertEqual(link, "https://pay.example.ph/pay?merchant=M-1&ref=PAY%20001")
+
+    def test_payment_link_needs_https_and_merchant(self):
+        with self.assertRaises(LogicError):
+            logic.build_payment_link("http://pay.example.ph", "M-1", "R")
+        with self.assertRaises(LogicError):
+            logic.build_payment_link("https://pay.example.ph", " ", "R")
+
+    def test_signature_check(self):
+        body = b'{"reference":"R1","amount":100}'
+        sig = logic.sign_payload("s3cret", body)
+        self.assertTrue(logic.verify_signature("s3cret", body, sig))
+        self.assertFalse(logic.verify_signature("s3cret", body + b" ", sig))
+        self.assertFalse(logic.verify_signature("", body, sig))
+        self.assertFalse(logic.verify_signature("s3cret", body, None))
+
+
+class MessagingTests(unittest.TestCase):
+    SENDERS = [
+        {"name": "old-sms", "channel": "SMS", "enabled": 0, "is_default": 0},
+        {"name": "new-sms", "channel": "SMS", "enabled": 1, "is_default": 0},
+        {"name": "mail-a", "channel": "Email", "enabled": 0, "is_default": 1},
+        {"name": "mail-b", "channel": "Email", "enabled": 1, "is_default": 1},
+    ]
+
+    def test_preferred_sms_used_when_enabled(self):
+        self.assertEqual(logic.pick_sender(self.SENDERS, "SMS", "new-sms")["name"], "new-sms")
+
+    def test_disabled_preferred_falls_back_to_enabled(self):
+        self.assertEqual(logic.pick_sender(self.SENDERS, "SMS", "old-sms")["name"], "new-sms")
+
+    def test_no_enabled_sender_raises(self):
+        with self.assertRaises(LogicError):
+            logic.pick_sender([self.SENDERS[0]], "SMS", "old-sms")
+
+    def test_default_email_account_must_be_enabled(self):
+        self.assertEqual(logic.default_sender(self.SENDERS, "Email")["name"], "mail-b")
+        with self.assertRaises(LogicError):
+            logic.default_sender([self.SENDERS[2]], "Email")
+
+    def test_stuck_means_missing_or_disabled_sender(self):
+        self.assertTrue(logic.is_stuck("Queued", "mail-a", self.SENDERS))
+        self.assertTrue(logic.is_stuck("Queued", None, self.SENDERS))
+        self.assertFalse(logic.is_stuck("Queued", "mail-b", self.SENDERS))
+        self.assertFalse(logic.is_stuck("Sent", "mail-a", self.SENDERS))

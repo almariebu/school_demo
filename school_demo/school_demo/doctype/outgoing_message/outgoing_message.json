@@ -1,0 +1,119 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-11 09:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "channel",
+  "recipient",
+  "subject",
+  "body",
+  "column_break_1",
+  "sender",
+  "status",
+  "sent_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "channel",
+   "fieldtype": "Select",
+   "label": "Channel",
+   "options": "SMS\nEmail",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "recipient",
+   "fieldtype": "Data",
+   "label": "Recipient",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "subject",
+   "fieldtype": "Data",
+   "label": "Subject",
+   "depends_on": "eval:doc.channel=='Email'"
+  },
+  {
+   "fieldname": "body",
+   "fieldtype": "Small Text",
+   "label": "Message",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break",
+   "label": "Column Break 1"
+  },
+  {
+   "fieldname": "sender",
+   "fieldtype": "Link",
+   "label": "Sender",
+   "options": "Message Sender",
+   "in_list_view": 1,
+   "description": "Left blank, the preferred (SMS) or default (Email) sender is used"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Queued\nStuck\nSent",
+   "default": "Queued",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "sent_on",
+   "fieldtype": "Datetime",
+   "label": "Sent On",
+   "read_only": 1
+  }
+ ],
+ "issingle": 0,
+ "modified": "2026-10-11 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "School Demo",
+ "name": "Outgoing Message",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Finance Officer",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Cashier",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "format:MSG-{#####}"
+}

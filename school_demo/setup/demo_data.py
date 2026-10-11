@@ -129,6 +129,7 @@ def seed():
     _masters()
     _college_admission()
     _basic_education()
+    _billing_and_messaging()
     frappe.db.commit()
     return "School Demo data is ready."
 
@@ -289,3 +290,31 @@ def _bed_enrollment(student, year, kind, incoming):
          "enrollment_type": kind, "incoming_grade_level": incoming},
         submit=True,
     )
+
+
+# ------------------------------------------- online payments and messaging
+def _billing_and_messaging():
+    for name, channel, address, enabled, default in [
+        ("Old SMS Gateway", "SMS", "OLDSMS", 0, 0),
+        ("New SMS Gateway", "SMS", "SCHOOLDEMO", 1, 0),
+        ("Old Mailbox", "Email", "billing-old@school.example", 0, 0),
+        ("School Mailbox", "Email", "billing@school.example", 1, 1),
+    ]:
+        _get_or_create("Message Sender", {"sender_name": name}, {
+            "channel": channel, "address": address, "enabled": enabled, "is_default": default})
+    settings = frappe.get_single("School Settings")
+    settings.update({
+        "payment_base_url": "https://pay.example.ph", "merchant_id": "school-demo",
+        "webhook_secret": "demo-webhook-secret",  # public demo value, never a real secret
+        "preferred_sms_sender": "Old SMS Gateway",  # disabled on purpose: the app falls back to the new gateway
+    })
+    settings.save(ignore_permissions=True)
+
+    student = frappe.db.get_value("Enrolled Student", {}, "name")
+    if not student:
+        return
+    for label, due, amount in [("Tuition, 1st installment", "2026-08-15", 8000), ("Tuition, 2nd installment", "2026-09-15", 8000), ("Miscellaneous", "2026-10-15", 2500)]:
+        _get_or_create("Student Fee", {"student": student, "fee_label": label}, {"due_date": due, "amount": amount})
+    _get_or_create("Outgoing Message", {"recipient": "+639170000001", "body": "Reminder: your 2nd installment is due on Sept 15."}, {"channel": "SMS"})
+    _get_or_create("Outgoing Message", {"recipient": "parent@example.ph", "subject": "Billing digest"},
+                   {"channel": "Email", "body": "Your billing digest for September.", "sender": "Old Mailbox"})
