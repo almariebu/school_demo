@@ -1,8 +1,11 @@
 frappe.ui.form.on("Migration Tools", {
     refresh(frm) {
         const run = (label, method, args) =>
-            frm.add_custom_button(label, () =>
-                frappe.call({ method, args, freeze: true, callback: () => frm.reload_doc() }),
+            frm.add_custom_button(
+                label,
+                () => {
+                    frappe.call({ method, args, freeze: true, callback: () => frm.reload_doc() });
+                },
                 __("Run")
             );
         run(__("Apply default roles"), "school_demo.migration.apply_default_roles");

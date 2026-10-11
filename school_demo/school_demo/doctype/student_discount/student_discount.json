@@ -44,8 +44,7 @@
   },
   {
    "fieldname": "column_break_1",
-   "fieldtype": "Column Break",
-   "label": "Column Break 1"
+   "fieldtype": "Column Break"
   },
   {
    "fieldname": "discount_type",

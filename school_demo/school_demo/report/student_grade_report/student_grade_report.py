@@ -46,7 +46,7 @@ def get_columns():
         {"label": _("Grade Level"), "fieldname": "grade_level", "fieldtype": "Data", "width": 100},
         {"label": _("Learning Area"), "fieldname": "learning_area", "fieldtype": "Data", "width": 160},
     ]
-    columns += [{"label": q, "fieldname": q, "fieldtype": "Float", "precision": 0, "width": 60} for q in logic.QUARTERS]
+    columns += [{"label": q, "fieldname": q, "fieldtype": "Float", "precision": 2, "width": 70} for q in logic.QUARTERS]
     columns += [
         {"label": _("Final Grade"), "fieldname": "average", "fieldtype": "Float", "precision": 2, "width": 100},
         {"label": _("Remarks"), "fieldname": "remarks", "fieldtype": "Data", "width": 100},

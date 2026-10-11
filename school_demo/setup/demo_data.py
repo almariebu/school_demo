@@ -275,13 +275,20 @@ def _basic_education():
             {"grade_level": grade, "adviser": adviser, "students": [{"student": students[l]} for l in lrns]},
         )
         if grade in ("Grade 11", "Grade 12"):
-            for row in class_list.students:
+            for index, row in enumerate(class_list.students):
                 for area in SHS_AREAS:
-                    _get_or_create(
-                        "Student Grade",
-                        {"student": row.student, "class_list": class_list.name, "learning_area": area, "quarter": "Q1"},
-                        {"grade": 84 + (len(row.student) + len(area)) % 12},
-                    )
+                    base = 84 + (len(row.student) + len(area)) % 12
+                    grades = {"Q1": base}
+                    if index == 0:  # first student: a full year, passing
+                        grades.update({"Q2": base + 1, "Q3": base - 1, "Q4": base + 2})
+                    elif index == 1 and area == SHS_AREAS[0]:  # second student: one full year, failing
+                        grades.update({"Q2": 60, "Q3": 62, "Q4": 58})
+                    for quarter, grade in grades.items():
+                        _get_or_create(
+                            "Student Grade",
+                            {"student": row.student, "class_list": class_list.name, "learning_area": area, "quarter": quarter},
+                            {"grade": grade},
+                        )
 
 
 def _bed_enrollment(student, year, kind, incoming):
