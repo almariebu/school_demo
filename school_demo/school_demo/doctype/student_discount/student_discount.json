@@ -1,0 +1,127 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-11 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "assessment",
+  "applicant_name",
+  "academic_term",
+  "column_break_1",
+  "discount_type",
+  "basis",
+  "mode",
+  "value",
+  "amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "assessment",
+   "fieldtype": "Link",
+   "label": "Assessment",
+   "options": "Enrollment Assessment",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "applicant_name",
+   "fieldtype": "Data",
+   "label": "Applicant Name",
+   "fetch_from": "assessment.applicant_name",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "fetch_from": "assessment.academic_term",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break",
+   "label": "Column Break 1"
+  },
+  {
+   "fieldname": "discount_type",
+   "fieldtype": "Data",
+   "label": "Discount Type",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "e.g. Scholar, Sibling, Early Bird"
+  },
+  {
+   "fieldname": "basis",
+   "fieldtype": "Select",
+   "label": "Computed From",
+   "options": "assessment\nbalance",
+   "default": "assessment",
+   "reqd": 1,
+   "description": "assessment = full assessment; balance = what is still unpaid"
+  },
+  {
+   "fieldname": "mode",
+   "fieldtype": "Select",
+   "label": "Mode",
+   "options": "percent\nfixed",
+   "default": "percent",
+   "reqd": 1
+  },
+  {
+   "fieldname": "value",
+   "fieldtype": "Float",
+   "label": "Value",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Discount Amount",
+   "read_only": 1,
+   "in_list_view": 1
+  }
+ ],
+ "issingle": 0,
+ "modified": "2026-10-11 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "School Demo",
+ "name": "Student Discount",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Finance Officer",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "format:DSC-{#####}"
+}

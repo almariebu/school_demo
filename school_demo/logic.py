@@ -327,3 +327,73 @@ def is_stuck(status: str, sender: Optional[str], senders: Sequence[Mapping]) -> 
         return False
     return not any(s["name"] == sender and s.get("enabled") for s in senders)
 
+
+
+# ------------------------------------------- case 5: account closing and cashiering
+PENALTY_RATE = 0.02
+QUARTERS = ("Q1", "Q2", "Q3", "Q4")
+PASSING_GRADE = 75
+
+
+def closing_blocker(term_name: str, is_closed, unposted_payments: int) -> Optional[str]:
+    """Why closing cannot start, or None when it can."""
+    if is_closed:
+        return f"{term_name} is already closed."
+    if unposted_payments > 0:
+        s = "" if unposted_payments == 1 else "s"
+        return f"{unposted_payments} unposted payment{s} must be posted before {term_name} can close."
+    return None
+
+
+def build_ledger(assessment_total, payments: Iterable[Mapping]) -> dict:
+    """Totals for one student. Overpayment is kept as credit, never dropped."""
+    payments = list(payments)
+    paid = round(sum(flt(p["amount"]) for p in payments), 2)
+    down = round(sum(flt(p["amount"]) for p in payments if p.get("kind") == "Down Payment"), 2)
+    net = round(flt(assessment_total) - paid, 2)
+    return {"assessment_total": flt(assessment_total, 2), "paid": paid, "down_payment": down,
+            "balance": max(net, 0.0), "credit": max(-net, 0.0)}
+
+
+def penalty_for(balance, due_date, as_of) -> float:
+    """2% of the balance, due ON the due date (inclusive). ISO strings and dates both compare."""
+    if flt(balance) <= 0 or str(as_of) < str(due_date):
+        return 0.0
+    return round(flt(balance) * PENALTY_RATE, 2)
+
+
+def reconcile(expected, counted) -> dict:
+    expected, counted = round(flt(expected), 2), round(flt(counted), 2)
+    variance = round(counted - expected, 2)
+    return {"expected": expected, "counted": counted, "variance": variance,
+            "status": "Balanced" if variance == 0 else "Over" if variance > 0 else "Short"}
+
+
+# ------------------------------------------------------- case 6: student discounts
+def discount_base(basis: str, assessment_total, paid) -> float:
+    if basis == "assessment":
+        return flt(assessment_total, 2)
+    return max(round(flt(assessment_total) - flt(paid), 2), 0.0)
+
+
+def discount_amount(basis: str, mode: str, value, assessment_total, paid) -> float:
+    value = flt(value)
+    if value <= 0:
+        raise LogicError("Discount value must be greater than zero.")
+    if mode == "percent" and value > 100:
+        raise LogicError("A percent discount cannot be more than 100.")
+    base = discount_base(basis, assessment_total, paid)
+    raw = base * value / 100 if mode == "percent" else value
+    return round(min(raw, base), 2)
+
+
+# ------------------------------------------------------------ case 7: grading
+def final_grade(grades: Mapping[str, float]) -> dict:
+    """Average of the quarters entered. Passed or Failed needs all four quarters."""
+    values = [flt(grades[q]) for q in QUARTERS if grades.get(q) is not None]
+    if not values:
+        return {"average": None, "remarks": "Incomplete"}
+    average = round(sum(values) / len(values), 2)
+    if len(values) < len(QUARTERS):
+        return {"average": average, "remarks": "Incomplete"}
+    return {"average": average, "remarks": "Passed" if average >= PASSING_GRADE else "Failed"}

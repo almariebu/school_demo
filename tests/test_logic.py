@@ -269,3 +269,77 @@ class MessagingTests(unittest.TestCase):
         self.assertTrue(logic.is_stuck("Queued", None, self.SENDERS))
         self.assertFalse(logic.is_stuck("Queued", "mail-b", self.SENDERS))
         self.assertFalse(logic.is_stuck("Sent", "mail-a", self.SENDERS))
+
+
+class AccountClosingTests(unittest.TestCase):
+    PAYMENTS = [{"amount": 3000, "kind": "Down Payment"}, {"amount": 4000, "kind": "Installment"}]
+
+    def test_blocker_closed_term(self):
+        self.assertIn("already closed", logic.closing_blocker("2026-1st", True, 0))
+
+    def test_blocker_unposted_payments_pluralised(self):
+        self.assertIn("1 unposted payment must", logic.closing_blocker("T", False, 1))
+        self.assertIn("2 unposted payments must", logic.closing_blocker("T", False, 2))
+
+    def test_no_blocker(self):
+        self.assertIsNone(logic.closing_blocker("T", False, 0))
+
+    def test_ledger_balance(self):
+        led = logic.build_ledger(10000, self.PAYMENTS)
+        self.assertEqual((led["paid"], led["down_payment"], led["balance"], led["credit"]), (7000, 3000, 3000, 0))
+
+    def test_overpayment_is_kept_as_credit(self):
+        led = logic.build_ledger(5000, self.PAYMENTS)
+        self.assertEqual((led["balance"], led["credit"]), (0, 2000))
+
+    def test_penalty_is_due_on_the_due_date_itself(self):
+        self.assertEqual(logic.penalty_for(3000, "2026-09-15", "2026-09-14"), 0)
+        self.assertEqual(logic.penalty_for(3000, "2026-09-15", "2026-09-15"), 60)
+        self.assertEqual(logic.penalty_for(3000, datetime.date(2026, 9, 15), datetime.date(2026, 10, 1)), 60)
+
+    def test_no_penalty_without_balance(self):
+        self.assertEqual(logic.penalty_for(0, "2026-09-15", "2026-10-01"), 0)
+
+    def test_reconcile(self):
+        self.assertEqual(logic.reconcile(7000, 7000)["status"], "Balanced")
+        r = logic.reconcile(7000, 6500)
+        self.assertEqual((r["variance"], r["status"]), (-500, "Short"))
+        self.assertEqual(logic.reconcile(7000, 7100.5)["status"], "Over")
+
+
+class DiscountTests(unittest.TestCase):
+    def test_percent_of_assessment(self):
+        self.assertEqual(logic.discount_amount("assessment", "percent", 10, 20000, 5000), 2000)
+
+    def test_percent_of_remaining_balance(self):
+        self.assertEqual(logic.discount_amount("balance", "percent", 10, 20000, 5000), 1500)
+
+    def test_fixed_is_capped_at_the_base(self):
+        self.assertEqual(logic.discount_amount("balance", "fixed", 99999, 20000, 15000), 5000)
+
+    def test_balance_base_never_negative(self):
+        self.assertEqual(logic.discount_amount("balance", "fixed", 500, 1000, 1500), 0)
+
+    def test_invalid_rules_raise(self):
+        for args in [("assessment", "percent", 0), ("assessment", "percent", 101), ("assessment", "percent", -5)]:
+            with self.assertRaises(LogicError):
+                logic.discount_amount(*args, 1000, 0)
+
+
+class FinalGradeTests(unittest.TestCase):
+    def test_passed(self):
+        r = logic.final_grade({"Q1": 80, "Q2": 76, "Q3": 78, "Q4": 82})
+        self.assertEqual((r["average"], r["remarks"]), (79, "Passed"))
+
+    def test_failed_below_75(self):
+        self.assertEqual(logic.final_grade({"Q1": 70, "Q2": 72, "Q3": 74, "Q4": 75})["remarks"], "Failed")
+
+    def test_exactly_75_passes(self):
+        self.assertEqual(logic.final_grade({"Q1": 75, "Q2": 75, "Q3": 75, "Q4": 75})["remarks"], "Passed")
+
+    def test_missing_quarter_is_incomplete(self):
+        r = logic.final_grade({"Q1": 90, "Q2": 90})
+        self.assertEqual((r["average"], r["remarks"]), (90, "Incomplete"))
+
+    def test_no_grades(self):
+        self.assertEqual(logic.final_grade({}), {"average": None, "remarks": "Incomplete"})

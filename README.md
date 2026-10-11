@@ -11,6 +11,11 @@ on the **Frappe Framework v15** only (no ERPNext).
    re-delivered, with payment links from settings.
 4. **SMS and email notifications**: preferred-provider fallback and stuck email re-routed through
    the default account.
+5. **Account closing and cashiering**: term closing in a background job that builds student ledgers,
+   keeps overpayment as credit, and applies a penalty from the due date itself.
+6. **Student discounts**: percent or fixed, from the full assessment or the unpaid balance, applied
+   to many students at once, with a summary report.
+7. **Grading**: quarterly grades with a final grade and Passed / Failed / Incomplete remarks.
 
 All business rules live in [`school_demo/logic.py`](school_demo/logic.py), which has **no Frappe
 imports**, so they are tested with plain `unittest` without a bench.
@@ -64,6 +69,32 @@ imports**, so they are tested with plain `unittest` without a bench.
 | Email on a missing or disabled account is flagged Stuck | `logic.is_stuck`, status set on save |
 | Stuck messages are routed through the default email account | `messaging.reroute_stuck` (hourly in `hooks.py`, also callable from the desk), rule in `logic.default_sender` |
 | Sending | `messaging.send_message`; the transport is a log-line stand-in (`messaging._transport`), replace it with a real SMS or SMTP client |
+
+### Case study 5: Account closing and cashiering
+
+| Requirement | Implemented in |
+| --- | --- |
+| Closing runs in the background and builds a ledger per student | `closing.start_closing` queues `closing.run_closing`; DocTypes `Account Closing` (status Queued, Running, Done, Failed) and `Student Ledger` |
+| Clear message when closing cannot start | `logic.closing_blocker`: closed term, or unposted (draft) Student Payments |
+| Overpayment stays as credit | `logic.build_ledger` |
+| Penalty is due on the due date itself | `logic.penalty_for` (inclusive date compare) |
+| Cashier reconciliation | `Cash Count`: counted cash against posted payments, status Balanced, Over or Short (`logic.reconcile`) |
+
+### Case study 6: Student discounts
+
+| Requirement | Implemented in |
+| --- | --- |
+| Percent or fixed, from the assessment or the remaining balance | `Student Discount`, rule in `logic.discount_amount` (capped at the base) |
+| One rule applied to many students, duplicates skipped | `discounts.apply_discount_batch`, **Apply discount** action in the Enrollment Assessment list |
+| Summary by school year, semester and type | Script Report **Discount Summary** |
+
+### Case study 7: Grading
+
+| Requirement | Implemented in |
+| --- | --- |
+| Grade records show the current student name | `Student Grade`, `Class List` (case study 2) and the report below read the name from `BEd Student` |
+| Grade validation | `logic.check_grade` (0 to 100) |
+| Printable grade report with final grade and remarks | Script Report **Student Grade Report**, rule in `logic.final_grade`; teachers see only their own grades |
 
 ### Also included
 

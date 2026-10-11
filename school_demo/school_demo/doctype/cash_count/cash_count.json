@@ -1,0 +1,111 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-11 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "count_date",
+  "cashier",
+  "counted",
+  "column_break_1",
+  "expected",
+  "variance",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "count_date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1,
+   "default": "Today",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "cashier",
+   "fieldtype": "Link",
+   "label": "Cashier",
+   "options": "User",
+   "reqd": 1,
+   "default": "__user",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "counted",
+   "fieldtype": "Currency",
+   "label": "Cash Counted",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break",
+   "label": "Column Break 1"
+  },
+  {
+   "fieldname": "expected",
+   "fieldtype": "Currency",
+   "label": "Expected from Posted Payments",
+   "read_only": 1
+  },
+  {
+   "fieldname": "variance",
+   "fieldtype": "Currency",
+   "label": "Variance",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Balanced\nOver\nShort",
+   "read_only": 1,
+   "in_list_view": 1
+  }
+ ],
+ "issingle": 0,
+ "modified": "2026-10-11 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "School Demo",
+ "name": "Cash Count",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Finance Officer",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Cashier",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "format:CC-{#####}"
+}

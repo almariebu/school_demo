@@ -130,6 +130,7 @@ def seed():
     _college_admission()
     _basic_education()
     _billing_and_messaging()
+    _closing_and_discounts()
     frappe.db.commit()
     return "School Demo data is ready."
 
@@ -318,3 +319,15 @@ def _billing_and_messaging():
     _get_or_create("Outgoing Message", {"recipient": "+639170000001", "body": "Reminder: your 2nd installment is due on Sept 15."}, {"channel": "SMS"})
     _get_or_create("Outgoing Message", {"recipient": "parent@example.ph", "subject": "Billing digest"},
                    {"channel": "Email", "body": "Your billing digest for September.", "sender": "Old Mailbox"})
+
+
+# ----------------------------------------- account closing, discounts, cashiering
+def _closing_and_discounts():
+    assessments = frappe.get_all("Enrollment Assessment", filters={"docstatus": 1}, fields=["name", "academic_term"], limit=3, order_by="creation")
+    if not assessments:
+        return
+    for a, (kind, mode, value) in zip(assessments, [("Scholar", "percent", 20), ("Sibling", "fixed", 1500)]):
+        _get_or_create("Student Discount", {"assessment": a.name, "discount_type": kind}, {"basis": "assessment", "mode": mode, "value": value})
+    term = assessments[0].academic_term
+    _get_or_create("Account Closing", {"academic_term": term}, {"as_of_date": "2026-10-20", "due_date": "2026-10-15"})
+    _get_or_create("Cash Count", {"count_date": "2026-10-11", "cashier": "cashier@demo.local"}, {"counted": 5000})
