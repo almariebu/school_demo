@@ -6,6 +6,10 @@ from school_demo.setup.demo_data import seed
 
 # children before parents
 DEMO_DOCTYPES = [
+    "Outgoing Message",
+    "Message Sender",
+    "Online Payment",
+    "Student Fee",
     "Student Grade",
     "Class List",
     "BEd Enrollment",

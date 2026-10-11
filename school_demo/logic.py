@@ -7,7 +7,10 @@ This module must NOT import frappe. Controllers call these functions and turn
 
 from __future__ import annotations
 
+import hashlib
+import hmac
 import re
+from urllib.parse import quote
 from typing import Iterable, Mapping, Optional, Sequence
 
 
@@ -254,3 +257,73 @@ def pivot_counts(rows: Sequence[Mapping], states: Sequence[str], key: str = "aca
         entry[field] = entry.get(field, 0) + int(row["cnt"])
         entry["total"] += int(row["cnt"])
     return [table[k] for k in sorted(table, reverse=True)]
+
+
+# ------------------------------------------------- case 3: online payments
+def fee_balance(fee: Mapping) -> float:
+    return round(flt(fee.get("amount")) - flt(fee.get("paid")), 2)
+
+
+def allocate_payment(amount, fees: Sequence[Mapping]) -> dict:
+    """Spread ``amount`` over open fees, oldest due date first. Leftover is credit."""
+    left = round(flt(amount), 2)
+    if left <= 0:
+        raise LogicError("Payment amount must be greater than zero.")
+    applied = {}
+    for fee in sorted(fees, key=lambda f: (str(f.get("due")), str(f.get("id")))):
+        take = min(fee_balance(fee), left)
+        if take > 0:
+            applied[fee["id"]] = round(take, 2)
+            left = round(left - take, 2)
+    return {"applied": applied, "credit": left}
+
+
+def build_payment_link(base_url: str, merchant_id: str, reference: str) -> str:
+    base = (base_url or "").strip().rstrip("/")
+    if not re.match(r"^https://[^\s/]+", base):
+        raise LogicError("Set a payment page address starting with https:// in School Settings.")
+    if not (merchant_id or "").strip():
+        raise LogicError("Set a merchant ID in School Settings.")
+    return f"{base}/pay?merchant={quote(merchant_id.strip(), safe='')}&ref={quote(reference, safe='')}"
+
+
+def sign_payload(secret: str, body: bytes) -> str:
+    return hmac.new(secret.encode(), body, hashlib.sha256).hexdigest()
+
+
+def verify_signature(secret: str, body: bytes, signature: Optional[str]) -> bool:
+    """Constant-time check of a gateway webhook signature. No secret means no trust."""
+    if not secret or not signature:
+        return False
+    return hmac.compare_digest(sign_payload(secret, body), signature)
+
+
+# --------------------------------------------- case 4: SMS and email senders
+def _enabled(senders: Sequence[Mapping], channel: str):
+    return [s for s in senders if s.get("channel") == channel and s.get("enabled")]
+
+
+def pick_sender(senders: Sequence[Mapping], channel: str, preferred: Optional[str]) -> Mapping:
+    """The preferred sender if it is enabled, otherwise the first enabled one."""
+    enabled = _enabled(senders, channel)
+    for sender in enabled:
+        if sender["name"] == preferred:
+            return sender
+    if not enabled:
+        raise LogicError(f"No {channel} sender is enabled. Enable one in Message Sender.")
+    return enabled[0]
+
+
+def default_sender(senders: Sequence[Mapping], channel: str) -> Mapping:
+    for sender in _enabled(senders, channel):
+        if sender.get("is_default"):
+            return sender
+    raise LogicError(f"No enabled default {channel} sender. Mark one sender as default.")
+
+
+def is_stuck(status: str, sender: Optional[str], senders: Sequence[Mapping]) -> bool:
+    """Unsent and pointing at a missing or disabled sender."""
+    if status == "Sent":
+        return False
+    return not any(s["name"] == sender and s.get("enabled") for s in senders)
+

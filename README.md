@@ -1,12 +1,16 @@
 # School Demo
 
-A public, installable **live demo** of two real school-system case studies by Almarie Bullo, built
+A public, installable **live demo** of real school-system case studies by Almarie Bullo, built
 on the **Frappe Framework v15** only (no ERPNext).
 
 1. **College admission and enrollment**: Applicant, then Enrollment Assessment (subjects and fees,
    approved through a workflow), then Enrolled Student.
 2. **Basic education enrollment**: Kinder to Grade 12 enrollment with grade promotion, one active
    enrollment per school year, a Withdraw action, class lists and teacher-only access.
+3. **Online payments**: a signed gateway webhook that allocates a paid fee oldest-first, safely
+   re-delivered, with payment links from settings.
+4. **SMS and email notifications**: preferred-provider fallback and stuck email re-routed through
+   the default account.
 
 All business rules live in [`school_demo/logic.py`](school_demo/logic.py), which has **no Frappe
 imports**, so they are tested with plain `unittest` without a bench.
@@ -40,6 +44,26 @@ imports**, so they are tested with plain `unittest` without a bench.
 | Withdraw clears class list rows, and Student Grade rows for Grade 11/12 | `withdraw` using `logic.withdrawal_plan` / `logic.is_senior_high` |
 | Class List shows the student's current name | `ClassList.onload` and `refresh_student_names` (render time), plus `school_demo/events.py::refresh_student_names` wired as a `doc_events` hook on `BEd Student` (`on_update`, `after_rename`) |
 | Teachers only see their own classes | `permission_query_conditions` and `has_permission` in `hooks.py`, implemented in `school_demo/permissions.py` for **Class List** and **Student Grade**; rule in `logic.is_teacher_restricted` / `logic.teacher_can_access` |
+
+### Case study 3: Online payments
+
+| Requirement | Implemented in |
+| --- | --- |
+| Gateway webhook with a signature check | `api.payment_webhook` (guest endpoint, 401 on a bad `X-Signature`), `logic.verify_signature` (HMAC-SHA256, constant-time) |
+| A paid fee lands on the student account, oldest due date first, extra becomes credit | `api.apply_payment`, rule in `logic.allocate_payment`, DocTypes `Student Fee` and `Online Payment` |
+| A repeated delivery changes nothing, even two at once | the gateway reference is the `Online Payment` name, so the unique key decides (`DuplicateEntryError`) |
+| Two payments cannot spend the same balance | open fees are locked with `select ... for update` |
+| Payment links come from settings | `School Settings`, `api.payment_link`, rule in `logic.build_payment_link` |
+| Demo gateway | **Simulate gateway payment** button on `Student Fee`: signs a payload and sends it through the same webhook code |
+
+### Case study 4: SMS and email notifications
+
+| Requirement | Implemented in |
+| --- | --- |
+| Texts use the preferred provider, and fall back when it is disabled | `messaging.prepare`, rule in `logic.pick_sender`; DocTypes `Message Sender`, `Outgoing Message` |
+| Email on a missing or disabled account is flagged Stuck | `logic.is_stuck`, status set on save |
+| Stuck messages are routed through the default email account | `messaging.reroute_stuck` (hourly in `hooks.py`, also callable from the desk), rule in `logic.default_sender` |
+| Sending | `messaging.send_message`; the transport is a log-line stand-in (`messaging._transport`), replace it with a real SMS or SMTP client |
 
 ### Also included
 

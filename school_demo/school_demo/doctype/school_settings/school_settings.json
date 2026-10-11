@@ -1,0 +1,66 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-11 09:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "payment_base_url",
+  "merchant_id",
+  "webhook_secret",
+  "preferred_sms_sender"
+ ],
+ "fields": [
+  {
+   "fieldname": "payment_base_url",
+   "fieldtype": "Data",
+   "label": "Payment Page Address",
+   "description": "Must start with https://"
+  },
+  {
+   "fieldname": "merchant_id",
+   "fieldtype": "Data",
+   "label": "Merchant ID"
+  },
+  {
+   "fieldname": "webhook_secret",
+   "fieldtype": "Password",
+   "label": "Gateway Webhook Secret"
+  },
+  {
+   "fieldname": "preferred_sms_sender",
+   "fieldtype": "Link",
+   "label": "Preferred SMS Sender",
+   "options": "Message Sender"
+  }
+ ],
+ "issingle": 1,
+ "modified": "2026-10-11 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "School Demo",
+ "name": "School Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Finance Officer",
+   "read": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
