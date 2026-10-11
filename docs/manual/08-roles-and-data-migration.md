@@ -2,7 +2,7 @@
 
 **What it does.** After a platform upgrade, three clean-up jobs bring a site back to a usable state: give staff the roles their designation needs, map old fee codes to the new fees, and recover attachments whose files are missing, without ever overwriting a file that is still there.
 
-**Who uses it.** System Manager (all three). Finance Officer can also run the fee mapping.
+**Who uses it.** System Manager (all three, from the Migration Tools screen). A Finance Officer can also call the fee mapping method directly, but cannot open Migration Tools.
 
 > **Try it yourself.** Open the demo, sign in with the login shown for this case study (the password is on the demo's `/demo` page), then open the **School Demo** workspace. Record numbers such as `ASM-00251` differ on every site.
 
@@ -49,4 +49,4 @@ Open **Migration Tools** and use the **Run** menu.
 | An unmapped fee code | Listed in the result and left Unmapped |
 | A file already on disk | Never overwritten |
 | The backup folder name | Must be a plain folder name inside `private/backups`; paths like `../x` are refused |
-| Who can run it | System Manager (fee mapping also Finance Officer) |
+| Who can run it | System Manager from Migration Tools (the fee mapping method also allows Finance Officer) |

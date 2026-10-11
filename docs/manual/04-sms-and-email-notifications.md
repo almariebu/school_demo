@@ -28,7 +28,7 @@ If a message points at a sender that is disabled or missing, its status is **Stu
 ![A Stuck email pointing at the disabled Old Mailbox](img/c4-stuck-message.png)
 
 ### 4. Re-route
-Stuck messages are moved to the default email account automatically **every hour** (the scheduler must be on). The same action can be run by a Finance Officer or System Manager at any time. The message moves to the default sender and becomes **Queued**.
+Stuck messages are moved to the default email account automatically **every hour** (the scheduler must be on). A Finance Officer or System Manager can also run it on demand by calling `school_demo.messaging.reroute_stuck`; there is no desk button for it. The message moves to the default sender and becomes **Queued**.
 
 ![The same message re-routed to School Mailbox and Queued](img/c4-message-rerouted.png)
 
